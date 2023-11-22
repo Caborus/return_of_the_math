@@ -1,0 +1,65 @@
+#mathProblemOverlay {
+    /* Overlay styles */
+    background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent background */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* ... other styles ... */
+}
+
+#mathProblemContainer {
+    /* Container styles */
+    background-color: rgb(228, 224, 224); /* White background */
+    border-radius: 10px; /* Rounded corners */
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+    text-align: center; /* Centering content */
+    
+}
+
+#mathProblemContent {
+    /* Black box container styles */
+    background-color: #2a3c4f; /* Black background */
+    padding: 20px;
+    border-radius: 5px;
+    display: inline-block; /* Makes the container only as wide as its content */
+    margin: 10px 0; /* Margin for spacing */
+}
+
+.input {
+    /* Input box styles */
+    display: block; /* Block display */
+    margin: 10px auto; /* Vertical margin and auto horizontal margins for centering */
+    padding: 5px; /* Padding for better appearance */
+    border: 1px solid #ccc; /* Border style */
+    border-radius: 4px; /* Slightly rounded corners */
+}
+
+.submitButton {
+    /* Button styles */
+    background-color: #4CAF50; /* Green background */
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    display: block; /* Block display */
+    margin: auto; /* Auto margins for horizontal centering */
+}
+
+.submitButton:hover {
+    /* Button hover effect */
+    background-color: #45a049;
+}
+
+.mathProblemError {
+    /* Error message styles */
+    color: red;
+}
