@@ -1,5 +1,6 @@
 // Content script for the extension
 
+
 function generateRandomProblem(difficulty) {
   const operators = ['+', '-', '*'];
   let problem = {
