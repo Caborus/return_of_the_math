@@ -62,4 +62,5 @@
 .mathProblemError {
     /* Error message styles */
     color: red;
+    text-align: center;
 }

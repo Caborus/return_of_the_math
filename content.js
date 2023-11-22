@@ -82,15 +82,16 @@ function createMathProblemOverlay(problem) {
     input.className = 'input';
     contentBox.appendChild(input); // Append to contentBox
 
+    const errorMessage = document.createElement('p');
+    errorMessage.className = 'mathProblemError';
+    errorMessage.textContent = '';
+    contentBox.appendChild(errorMessage);
+    
     const submitButton = document.createElement('button');
     submitButton.textContent = 'Submit Answer';
     submitButton.className = 'submitButton';
     contentBox.appendChild(submitButton); // Append to contentBox
 
-    const errorMessage = document.createElement('p');
-    errorMessage.className = 'mathProblemError';
-    errorMessage.textContent = '';
-    contentBox.appendChild(errorMessage);
 
   // Event listener to close overlay on click outside
   overlay.addEventListener('click', function(event) {
