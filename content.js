@@ -65,52 +65,46 @@ function calculateAnswer(problem) {
 function createMathProblemOverlay(problem) {
   const overlay = document.createElement('div');
   overlay.id = 'mathProblemOverlay';
-  overlay.style.position = 'fixed';
-  overlay.style.top = '0';
-  overlay.style.left = '0';
-  overlay.style.width = '100%';
-  overlay.style.height = '100%';
-  overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
-  overlay.style.zIndex = '1000';
-  overlay.style.display = 'flex';
-  overlay.style.justifyContent = 'center';
-  overlay.style.alignItems = 'center';
-  
+  overlay.className = 'mathProblemOverlay'; // Added CSS class
+
   const container = document.createElement('div');
-  container.style.padding = '20px';
-  container.style.backgroundColor = 'black';
-  container.style.borderRadius = '5px';
+  container.className = 'mathProblemContainer';
 
-  const mathProblem = document.createElement('p');
-  mathProblem.textContent = `Solve: ${problem.toString()}`;
-  container.appendChild(mathProblem);
+  const contentBox = document.createElement('div');
+    contentBox.id = 'mathProblemContent'; // Create the content box
 
-  const input = document.createElement('input');
-  input.type = 'text';
-  container.appendChild(input);
+    const mathProblem = document.createElement('p');
+    mathProblem.textContent = `Solve: ${problem.toString()}`;
+    contentBox.appendChild(mathProblem); // Append to contentBox
 
-  const submitButton = document.createElement('button');
-  submitButton.textContent = 'Submit Answer';
-  container.appendChild(submitButton);
+    const input = document.createElement('input');
+    input.type = 'text';
+    input.className = 'input';
+    contentBox.appendChild(input); // Append to contentBox
 
-  const errorMessage = document.createElement('p');
-  errorMessage.style.color = 'red';
-  errorMessage.textContent = '';
-  container.appendChild(errorMessage);
+    const submitButton = document.createElement('button');
+    submitButton.textContent = 'Submit Answer';
+    submitButton.className = 'submitButton';
+    contentBox.appendChild(submitButton); // Append to contentBox
 
+    const errorMessage = document.createElement('p');
+    errorMessage.className = 'mathProblemError';
+    errorMessage.textContent = '';
+    contentBox.appendChild(errorMessage);
 
-  // Adding an event listener to close the overlay if clicked outside the popup container
+  // Event listener to close overlay on click outside
   overlay.addEventListener('click', function(event) {
-    if (event.target === overlay) {
-        overlay.remove(); // Remove the overlay if the click is directly on the overlay
-    }
-});
+      if (event.target === overlay) {
+          overlay.remove();
+      }
+  });
 
-// Prevent clicks inside the container from closing the overlay
-container.addEventListener('click', function(event) {
-    event.stopPropagation();
-});
+  // Prevent clicks inside the container from closing the overlay
+  container.addEventListener('click', function(event) {
+      event.stopPropagation();
+  });
 
+  container.appendChild(contentBox);
   overlay.appendChild(container);
   document.body.appendChild(overlay);
 
