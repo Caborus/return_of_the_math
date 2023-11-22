@@ -3,7 +3,7 @@
   "name": "CoolMathGames Redirect Challenge",
   "version": "1.0",
   "description": "Challenge users with a math problem before redirecting to Cool Math Games",
-  "permissions": ["activeTab", "webNavigation"],
+  "permissions": ["activeTab", "webNavigation", "storage"],
   "background": {
     "service_worker": "background.js"
   },

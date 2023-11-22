@@ -1,13 +1,35 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Bring Back The Math</title>
+<head>
+    <title>Select Difficulty</title>
+    <link rel="stylesheet" type="text/css" href="popup.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Select Math Problem Difficulty</h1>
+        <form id="difficultyForm">
+            <label class="radio-container">
+                Easy
+                <input type="radio" id="easy" name="difficulty" value="easy" checked>
+                <span class="checkmark"></span>
+            </label>
+            <label class="radio-container">
+                Medium
+                <input type="radio" id="medium" name="difficulty" value="medium">
+                <span class="checkmark"></span>
+            </label>
+            <label class="radio-container">
+                Hard
+                <input type="radio" id="hard" name="difficulty" value="hard">
+                <span class="checkmark"></span>
+            </label>
+            <label class="radio-container">
+                Extreme
+                <input type="radio" id="extreme" name="difficulty" value="extreme">
+                <span class="checkmark"></span>
+            </label>
+        </form>
+    </div>
     <script src="popup.js"></script>
-  </head>
-  <body>
-    <h2>Math Challenge</h2>
-    <p id="mathProblem"></p>
-    <input type="text" id="userAnswer" placeholder="Your Answer" />
-    <button id="submitAnswer">Submit</button>
-  </body>
+</body>
 </html>

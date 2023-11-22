@@ -1,35 +1,65 @@
 // Content script for the extension
 
-// Function to generate a random math problem
-function generateRandomProblem() {
-  const operand1 = Math.floor(Math.random() * 10) + 1;
-  const operand2 = Math.floor(Math.random() * 10) + 1;
+function generateRandomProblem(difficulty) {
   const operators = ['+', '-', '*'];
-  const operator = operators[Math.floor(Math.random() * operators.length)];
-
-  return {
-      operand1: operand1,
-      operand2: operand2,
-      operator: operator,
+  let problem = {
+      expression: '',
       toString: function() {
-          return `${operand1} ${operator} ${operand2}`;
+          return this.expression;
       }
   };
+
+  let numberOfOperands;
+  if (difficulty === 'easy') {
+      numberOfOperands = 2; // Easy: 2 operands, 1 operator
+  } else if (difficulty === 'medium') {
+      numberOfOperands = 3; // Medium: 3 operands, 2 operators
+  } else if (difficulty === 'hard') {
+      numberOfOperands = 4; // Hard: 4 operands, 3 operators
+  } else if (difficulty === 'extreme') {
+      numberOfOperands = 20; 
+  }
+
+  for (let i = 0; i < numberOfOperands; i++) {
+      problem.expression += (Math.floor(Math.random() * 10) + 1).toString();
+      if (i < numberOfOperands - 1) {
+          problem.expression += ' ' + operators[Math.floor(Math.random() * operators.length)] + ' ';
+      }
+  }
+
+  return problem;
 }
+
+
+
 
 // Function to calculate the answer of the math problem
 function calculateAnswer(problem) {
-  switch (problem.operator) {
-      case '+':
-          return problem.operand1 + problem.operand2;
-      case '-':
-          return problem.operand1 - problem.operand2;
-      case '*':
-          return problem.operand1 * problem.operand2;
-      default:
-          return NaN; // Handle unsupported operators
+  let tokens = problem.split(' ');
+
+  // First, handle all multiplication
+  while (tokens.includes('*')) {
+      let index = tokens.indexOf('*');
+      let product = parseInt(tokens[index - 1]) * parseInt(tokens[index + 1]);
+      tokens.splice(index - 1, 3, product.toString());
   }
+
+  // Then, handle addition and subtraction
+  let result = parseInt(tokens[0]);
+  for (let i = 1; i < tokens.length; i += 2) {
+      let nextVal = parseInt(tokens[i + 1]);
+      if (tokens[i] === '+') {
+          result += nextVal;
+      } else if (tokens[i] === '-') {
+          result -= nextVal;
+      }
+  }
+
+  return result;
 }
+
+
+
 
 // Function to create the math problem overlay
 function createMathProblemOverlay(problem) {
@@ -87,19 +117,31 @@ container.addEventListener('click', function(event) {
   return { overlay, input, submitButton, errorMessage };
 }
 
+function getDifficultyLevel() {
+  return new Promise((resolve, reject) => {
+      chrome.storage.local.get(['difficulty'], function(result) {
+          resolve(result.difficulty || 'easy'); // Default to 'easy' if not set
+      });
+  });
+}
+
 // Add event listener to document
-document.addEventListener('click', function(event) {
-  let target = event.target.closest('.game-item a');
+document.addEventListener('click', async function(event) {
+  let target = event.target.closest('.game-item a'); //still need to make work with all games
   if (!target) return;
 
   event.preventDefault();
 
-  const problem = generateRandomProblem();
+  // Retrieve the difficulty level from storage
+  const difficulty = await getDifficultyLevel();
+
+  const problem = generateRandomProblem(difficulty);
+  console.log(calculateAnswer(problem.toString()))
   const { overlay, input, submitButton, errorMessage } = createMathProblemOverlay(problem);
 
   // Handle submission of answer
   submitButton.addEventListener('click', function() {
-      if (parseInt(input.value, 10) === calculateAnswer(problem)) {
+      if (parseInt(input.value, 10) === calculateAnswer(problem.toString())) {
           overlay.remove();
           window.location.href = target.href; // Redirect to the game
       } else {
