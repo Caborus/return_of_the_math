@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "CoolMathGames Redirect Challenge",
+  "name": "Return of the Math",
   "version": "1.0",
   "description": "Challenge users with a math problem before redirecting to Cool Math Games",
   "permissions": ["activeTab", "webNavigation", "storage"],
@@ -8,12 +8,12 @@
     "service_worker": "background.js"
   },
   "action": {
-    // Commented out because I don't have icons yet
-    // "default_icon": {
-    //   "16": "images/icon16.png",
-    //   "48": "images/icon48.png",
-    //   "128": "images/icon128.png"
-    // },
+    //Commented out because I don't have icons yet
+    "default_icon": {
+      "16": "icon.png",
+      "48": "icon.png",
+      "128": "icon.png"
+    },
     "default_popup": "popup.html"
   },
   "content_scripts": [
