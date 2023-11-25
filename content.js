@@ -120,28 +120,55 @@ function getDifficultyLevel() {
   });
 }
 
-// Add event listener to document
-document.addEventListener('click', async function(event) {
-  let target = event.target.closest('.game-item a'); //still need to make work with all games
-  if (!target) return;
-
-  event.preventDefault();
-
-  // Retrieve the difficulty level from storage
-  const difficulty = await getDifficultyLevel();
-
-  const problem = generateRandomProblem(difficulty);
-  console.log(calculateAnswer(problem.toString()))
-  const { overlay, input, submitButton, errorMessage } = createMathProblemOverlay(problem);
-
-  // Handle submission of answer
-  submitButton.addEventListener('click', function() {
-      if (parseInt(input.value, 10) === calculateAnswer(problem.toString())) {
-          overlay.remove();
-          window.location.href = target.href; // Redirect to the game
+// Function to add event listeners to game links
+function addEventListenersToGames() {
+    const gameLinks = document.querySelectorAll('.game-item a, .continue-playing a');
+    gameLinks.forEach(link => {
+      link.removeEventListener('click', handleGameClick); // Remove any existing listeners to prevent duplicates
+      link.addEventListener('click', handleGameClick, true);
+    });
+  }
+  
+  // Function that handles the click event on game links
+  async function handleGameClick(event) {
+    let target = event.target.closest('.game-item a, .continue-playing a');
+    if (!target) return;
+  
+    event.preventDefault();
+    event.stopPropagation();
+  
+    const difficulty = await getDifficultyLevel();
+    const problem = generateRandomProblem(difficulty);
+    const { overlay, input, submitButton, errorMessage } = createMathProblemOverlay(problem);
+  
+    submitButton.addEventListener('click', function() {
+      if (parseInt(input.value, 10) === calculateAnswer(problem.expression)) {
+        overlay.remove();
+        window.location.href = target.href;
       } else {
         errorMessage.textContent = 'Incorrect answer. Try again.';
-        input.value = ''; // Clear the input field
+        input.value = '';
       }
-  });
-});
+    });
+  }
+  
+  // MutationObserver to handle dynamically loaded game links
+  function observeGamesContainer() {
+    const gamesContainer = document.querySelector('body'); // Observing the body to cover all dynamically loaded content
+  
+    const observer = new MutationObserver(mutations => {
+      mutations.forEach(mutation => {
+        if (mutation.addedNodes.length > 0) {
+          addEventListenersToGames(); // Re-add event listeners whenever new nodes are added
+        }
+      });
+    });
+  
+    observer.observe(gamesContainer, { childList: true, subtree: true });
+  }
+  
+  // Observe the container for dynamically added elements
+  observeGamesContainer();
+  
+  // Also attach the event listener to all current game links on initial load
+  document.addEventListener('DOMContentLoaded', addEventListenersToGames);
