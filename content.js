@@ -1,5 +1,3 @@
-// Content script for the extension
-
 function generateRandomProblem(difficulty) {
   const operators = ['+', '-', '*'];
   let problem = {
@@ -120,9 +118,10 @@ function getDifficultyLevel() {
   });
 }
 
+
 // Function to add event listeners to game links
 function addEventListenersToGames() {
-    const gameLinks = document.querySelectorAll('.game-item a, .continue-playing a');
+    const gameLinks = document.querySelectorAll('.game-item a, .continue-playing a, .game-list-item a, .owl-carousel a, .game-title a, .search-results-container a');
     gameLinks.forEach(link => {
       link.removeEventListener('click', handleGameClick); // Remove any existing listeners to prevent duplicates
       link.addEventListener('click', handleGameClick, true);
@@ -131,7 +130,7 @@ function addEventListenersToGames() {
   
   // Function that handles the click event on game links
   async function handleGameClick(event) {
-    let target = event.target.closest('.game-item a, .continue-playing a');
+    let target = event.target.closest('.game-item a, .continue-playing a, .game-list-item a, .owl-carousel a, .game-title a, .search-results-container a');
     if (!target) return;
   
     event.preventDefault();
@@ -159,16 +158,17 @@ function addEventListenersToGames() {
     const observer = new MutationObserver(mutations => {
       mutations.forEach(mutation => {
         if (mutation.addedNodes.length > 0) {
-          addEventListenersToGames(); // Re-add event listeners whenever new nodes are added
+          addEventListenersToGames(); // Re-add event listeners whenever new games are added
         }
       });
     });
   
     observer.observe(gamesContainer, { childList: true, subtree: true });
   }
-  
+
   // Observe the container for dynamically added elements
   observeGamesContainer();
-  
-  // Also attach the event listener to all current game links on initial load
-  document.addEventListener('DOMContentLoaded', addEventListenersToGames);
+
+  // Attach event listeners to all games on load
+  document.addEventListener('DOMContentLoaded', addEventListenersToGames());
+

@@ -3,7 +3,7 @@
   "name": "Return of the Math",
   "version": "1.0",
   "description": "Challenge users with a math problem before redirecting to Cool Math Games",
-  "permissions": ["activeTab", "webNavigation", "storage"],
+  "permissions": ["webNavigation", "storage"],
   "action": {
     "default_icon": {
       "16": "icon.png",
