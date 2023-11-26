@@ -1,4 +1,12 @@
-addSession();
+// only adds the session timer if in a game
+if(checkifgame(window.location.href)){
+  addSession()
+}
+
+function checkifgame(link) {
+    const parts = link.split('/'); // Split the URL by '/'
+    return parts.some(part => part.startsWith('0-')); // Check if any part starts with '0-' which means in a game
+}
 
 function generateRandomProblem(difficulty) {
   const operators = ['+', '-', '*'];
