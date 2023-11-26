@@ -141,9 +141,11 @@ function addEventListenersToGames() {
     const difficulty = await getDifficultyLevel();
     const problem = generateRandomProblem(difficulty);
     const { overlay, input, submitButton, errorMessage } = createMathProblemOverlay(problem);
-  
+    answer = calculateAnswer(problem.expression)
+    console.log(answer)
+
     submitButton.addEventListener('click', function() {
-      if (parseInt(input.value, 10) === calculateAnswer(problem.expression)) {
+      if (parseInt(input.value, 10) === answer) {
         overlay.remove();
         window.location.href = target.href;
       } else {
