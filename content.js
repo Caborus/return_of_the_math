@@ -1,3 +1,5 @@
+addSession();
+
 function generateRandomProblem(difficulty) {
   const operators = ['+', '-', '*'];
   let problem = {
@@ -172,3 +174,20 @@ function addEventListenersToGames() {
   // Attach event listeners to all games on load
   document.addEventListener('DOMContentLoaded', addEventListenersToGames());
 
+  function addSession(){
+    document.body.insertAdjacentHTML('afterbegin', '  <div class="session" width="200" height="300">');
+    document.body.insertAdjacentHTML('afterbegin','      <div id="time">');
+    document.body.insertAdjacentHTML('afterbegin','          <span class="digit" id="sec">');
+    document.body.insertAdjacentHTML('afterbegin','                </span>');
+    document.body.insertAdjacentHTML('afterbegin','          <span class="txt">Sec</span>');
+    document.body.insertAdjacentHTML('afterbegin','          <span class="digit" id="min">');
+    document.body.insertAdjacentHTML('afterbegin','                </span>');
+    document.body.insertAdjacentHTML('afterbegin','          <span class="txt">Min</span>');
+    document.body.insertAdjacentHTML('afterbegin','          <span class="digit" id="hr">');
+    document.body.insertAdjacentHTML('afterbegin','                  </span>');
+    document.body.insertAdjacentHTML('afterbegin','          <span class="txt">Hr</span>');
+    document.body.insertAdjacentHTML('afterbegin','      </div>');
+    document.body.insertAdjacentHTML('afterbegin','      <h1>Session Time </h1>');
+    document.body.insertAdjacentHTML('afterbegin','  </div>');
+    document.body.insertAdjacentHTML('afterbegin','  <script src="script.js"></script>');
+}
